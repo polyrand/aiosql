@@ -14,6 +14,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -138,7 +139,7 @@ additional keyword arguments.</p>
 <span class="c1"># Hola, Earth!</span>
 <span class="k">for</span> <span class="n">world_row</span> <span class="ow">in</span> <span class="n">worlds</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">greeting_row</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting_row[&#39;greeting&#39;]}, {world_row[&#39;world_name&#39;]}!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">greeting_row</span><span class="p">[</span><span class="s1">&#39;greeting&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">world_row</span><span class="p">[</span><span class="s1">&#39;world_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
 
 <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -210,8 +211,8 @@ In this example it is used to build instances of <code class="docutils literal n
     <span class="n">record_classes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Greeting&quot;</span><span class="p">:</span> <span class="n">Greeting</span><span class="p">,</span> <span class="s2">&quot;World&quot;</span><span class="p">:</span> <span class="n">World</span><span class="p">}</span>
 <span class="p">)</span>
 
-<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="k">async</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
         <span class="c1"># Parallel queries!!!</span>
         <span class="c1">#</span>
         <span class="c1"># greetings = [</span>
@@ -220,7 +221,7 @@ In this example it is used to build instances of <code class="docutils literal n
         <span class="c1">#     &lt;Greeting greeting_id=3, greeting=&quot;Hola&quot;&gt;</span>
         <span class="c1"># ]</span>
         <span class="c1"># world = &lt;World world_id=1, world_name=&quot;Earth&quot;&gt;</span>
-        <span class="n">greetings</span><span class="p">,</span> <span class="n">world</span> <span class="o">=</span> <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+        <span class="n">greetings</span><span class="p">,</span> <span class="n">world</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
             <span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">),</span>
             <span class="n">queries</span><span class="o">.</span><span class="n">get_world_by_name</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">world_name</span><span class="o">=</span><span class="s2">&quot;Earth&quot;</span><span class="p">)</span>
         <span class="p">)</span>
@@ -229,7 +230,7 @@ In this example it is used to build instances of <code class="docutils literal n
         <span class="c1"># Aloha, Earth!</span>
         <span class="c1"># Hola, Earth!</span>
         <span class="k">for</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{greeting_row.greeting}, {world.world_name}!&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">greeting_row</span><span class="o">.</span><span class="n">greeting</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">world</span><span class="o">.</span><span class="n">world_name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
 
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
@@ -264,7 +265,7 @@ In this example it is used to build instances of <code class="docutils literal n
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, William Vaughn.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>
