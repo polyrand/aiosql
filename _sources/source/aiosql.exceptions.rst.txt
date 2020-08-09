@@ -1,7 +1,0 @@
-aiosql.exceptions module
-========================
-
-.. automodule:: aiosql.exceptions
-    :members:
-    :undoc-members:
-    :show-inheritance:

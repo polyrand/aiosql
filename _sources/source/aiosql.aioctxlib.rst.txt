@@ -1,7 +1,0 @@
-aiosql.aioctxlib module
-=======================
-
-.. automodule:: aiosql.aioctxlib
-    :members:
-    :undoc-members:
-    :show-inheritance:

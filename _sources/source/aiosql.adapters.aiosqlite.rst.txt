@@ -1,7 +1,0 @@
-aiosql.adapters.aiosqlite module
-================================
-
-.. automodule:: aiosql.adapters.aiosqlite
-    :members:
-    :undoc-members:
-    :show-inheritance:

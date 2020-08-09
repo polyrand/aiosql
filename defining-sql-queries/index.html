@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="William Vaughn">
+  <link rel="canonical" href="https://nackjicholson.github.io/aiosql/defining-sql-queries/">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Defining SQL Queries - aiosql docs</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="../css/custom.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Defining SQL Queries";
+    var mkdocs_page_input_path = "defining-sql-queries.md";
+    var mkdocs_page_url = "/aiosql/defining-sql-queries/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> aiosql docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Defining SQL Queries</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#query-names">Query Names</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#query-comments">Query Comments</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#operators">Operators</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#no-operator-default">No Operator (Default)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#select-one">^ Select One</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#insertupdatedelete">! Insert/Update/Delete</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#insertupdatedelete-returning">&lt;! Insert/Update/Delete Returning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#insertupdatedelete-many">*! Insert/Update/Delete Many</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#execute-scripts"># Execute Scripts</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../advanced-topics/">Advanced Topics</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../database-driver-adapters/">Database Driver Adapters</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../api/">API</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">aiosql docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Defining SQL Queries</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/nackjicholson/aiosql/edit/master/docs/defining-sql-queries.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="defining-sql-queries">Defining SQL Queries<a class="headerlink" href="#defining-sql-queries" title="Permanent link">&para;</a></h1>
+<h2 id="query-names">Query Names<a class="headerlink" href="#query-names" title="Permanent link">&para;</a></h2>
+<p>Name definitions are how aiosql determines the name of the methods that SQL code blocks are accessible by. A query name is defined by a SQL comment of the form "-- name: <query-name>".</p>
+<pre><code class="sql">-- name: get_all_blogs
+select * from blogs;
+</code></pre>
+
+<p>This query will be available in aiosql under the python method name <code>.get_all_blogs(conn)</code></p>
+<h2 id="query-comments">Query Comments<a class="headerlink" href="#query-comments" title="Permanent link">&para;</a></h2>
+<p><em>./sql/blogs.sql</em></p>
+<pre><code class="sql">-- name: get_all_blogs
+-- Fetch all fields for every blog in the database.
+select * from blogs;
+</code></pre>
+
+<p>Any other SQL comments you make between the name definition and your code will be used a the python documentation string for the generated method. You can use <code>help()</code> in the Python REPL to view these comments while using python.</p>
+<pre><code class="python">Python 3.8.3 (default, May 17 2020, 18:15:42) 
+[GCC 10.1.0] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; import aiosql
+&gt;&gt;&gt; queries = aiosql.from_path(&quot;sql&quot;, &quot;sqlite3&quot;)
+&gt;&gt;&gt; help(queries.get_all_blogs)
+Help on method get_all_blogs in module aiosql.queries:
+
+get_all_blogs(conn, *args, **kwargs) method of aiosql.queries.Queries instance
+    Fetch all fields for every blog in the database.
+</code></pre>
+
+<h2 id="operators">Operators<a class="headerlink" href="#operators" title="Permanent link">&para;</a></h2>
+<p>This section describes the usage of various query operator symbols that you can annotate query names with in order to direct how aiosql will execute and return results.</p>
+<h3 id="no-operator-default">No Operator (Default)<a class="headerlink" href="#no-operator-default" title="Permanent link">&para;</a></h3>
+<p>In the above <a href="#query-names">Query Names</a> section the <code>get-all-blogs</code> name is written without any trailing operators.</p>
+<pre><code class="sql">-- name: get_all_blogs
+</code></pre>
+
+<p>The lack of an operator is actually the most basic operator used by default for your queries. This tells aiosql to execute the query and to return all the results. In the case of <code>get-all-blogs</code> that means a <code>select</code> statement will be executed and a list of rows will be returned. When writing your application you will often need to perform other operations besides <code>select</code>, like <code>insert</code>, <code>delete</code>, and perhaps bulk operations. The operators detailed in the other sections of this doc let you declare in your SQL code how that query should be executed by a python database driver.</p>
+<h3 id="select-one"><code>^</code> Select One<a class="headerlink" href="#select-one" title="Permanent link">&para;</a></h3>
+<p>The <code>^</code> operator executes a query and returns the first row of a result set. When there are no rows in the result set it returns <code>None</code>. This is useful when you know there should be one, and exactly one result from your query.</p>
+<p>As an example, if you have a unique constraint on the <code>username</code> field in your <code>users</code> table which makes it impossible for two users to share the same username, you could use <code>^</code> to direct aiosql to select a single user rather than a list of rows of length 1.</p>
+<pre><code class="sql">-- name: get_user_by_username^
+select userid,
+       username,
+       name
+  from users
+ where username = :username;
+</code></pre>
+
+<p>When used from Python this query will either return <code>None</code> or the singular selected row.</p>
+<pre><code class="python">queries.get_user_by_username(conn, username=&quot;willvaughn&quot;)
+# =&gt; (1, &quot;willvaughn&quot;, &quot;William Vaughn&quot;) or None
+</code></pre>
+
+<h3 id="insertupdatedelete"><code>!</code> Insert/Update/Delete<a class="headerlink" href="#insertupdatedelete" title="Permanent link">&para;</a></h3>
+<p>The <code>!</code> operator executes SQL without returning any results. It is meant for statements that use <code>insert</code>, <code>update</code>, and <code>delete</code> to make modifications to database rows without a necessary return value.</p>
+<pre><code class="sql">-- name: publish_blog!
+insert into blogs(userid, title, content) values (:userid, :title, :content);
+
+-- name: remove_blog!
+-- Remove a blog from the database
+delete from blogs where blogid = :blogid;
+</code></pre>
+
+<p>The methods generated are:</p>
+<pre><code class="text">publish_blog(conn, userid: int, title: str, content: str) -&gt; None:
+remove_blog(conn, blogid: int) -&gt; None:
+</code></pre>
+
+<p>Each can be called to alter the database, but both will return <code>None</code>.</p>
+<h3 id="insertupdatedelete-returning"><code>&lt;!</code> Insert/Update/Delete Returning<a class="headerlink" href="#insertupdatedelete-returning" title="Permanent link">&para;</a></h3>
+<p>When performing a modification of rows, or adding new rows, sometimes it is necessary to return values using the <code>returning</code> clause where available. With the <code>&lt;!</code> operator aiosql can execute a query and return values.</p>
+<p>When using SQLite this operator will return the id of the inserted row using <a href="https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.lastrowid"><code>cur.lastrowid</code></a>.</p>
+<pre><code class="sql">-- name: publish_blog&lt;!
+insert into blogs(userid, title, content) values (:userid, :title, :content);
+</code></pre>
+
+<p>Executing this query in python will return the <code>blogid</code> of the inserted row.</p>
+<pre><code class="python">queries = aiosql.from_path(&quot;blogs.sql&quot;, &quot;sqlite3&quot;)
+# ... connection code ...
+blogid = queries.publish_blog(conn, userid=1, title=&quot;Hi&quot; content=&quot;blah blah.&quot;)
+</code></pre>
+
+<p>PostgreSQL allows returning multiple values via the <code>returning</code> clause of queries. This same query using <code>psycopg2</code> might look like the following.</p>
+<pre><code class="sql">-- name: publish_blog&lt;!
+insert into (userid, title, content)
+     values (:userid, :title, :content)
+  returning blogid, title;
+</code></pre>
+
+<p>In python a tuple is returned with the <code>blogid</code> and <code>title</code> of the inserted row.</p>
+<pre><code class="python">queries = aiosql.from_path(&quot;blogs.sql&quot;, &quot;psycopg2&quot;)
+# ... connection code ...
+blogid, title = queries.publish_blog(conn, userid=1, title=&quot;Hi&quot; content=&quot;blah blah.&quot;)
+</code></pre>
+
+<h3 id="insertupdatedelete-many"><code>*!</code> Insert/Update/Delete Many<a class="headerlink" href="#insertupdatedelete-many" title="Permanent link">&para;</a></h3>
+<p>The <code>*!</code> operator directs aiosql to execute a SQL statement over all items of a given sequence. Under the hood this calls the <code>executemany</code> method of many database drivers. See <a href="https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor.executemany">sqlite3 Cursor.executemany</a> for an example.</p>
+<p>In aiosql we can use this for a bulk publish method that operates over a list of blog entries.</p>
+<pre><code class="sql">-- name: bulk_publish*!
+-- Insert many blogs at once
+insert into blogs (userid, title, content, published)
+values (:userid, :title, :content, :published);
+</code></pre>
+
+<pre><code class="python">queries = aiosql.from_path(&quot;blogs.sql&quot;, &quot;psycopg2&quot;)
+# ... connection code ...
+blogs = [
+    {&quot;userid&quot;: 1, &quot;title&quot;: &quot;First Blog&quot;, &quot;content&quot;: &quot;...&quot;, published: datetime(2018, 1, 1)},
+    {&quot;userid&quot;: 1, &quot;title&quot;: &quot;Next Blog&quot;, &quot;content&quot;: &quot;...&quot;, published: datetime(2018, 1, 2)},
+    {&quot;userid&quot;: 2, &quot;title&quot;: &quot;Hey, Hey!&quot;, &quot;content&quot;: &quot;...&quot;, published: datetime(2018, 7, 28)},
+]
+queries.bulk_publish(conn, blogs)
+</code></pre>
+
+<h3 id="execute-scripts"><code>#</code> Execute Scripts<a class="headerlink" href="#execute-scripts" title="Permanent link">&para;</a></h3>
+<p>Using this operarator will execute sql statements as a script. You can't do variable substitution with the <code>#</code> operator. An example usecase is using data definition statements like create table in order to setup a database.</p>
+<pre><code class="sql">-- name: create_schema#
+create table users (
+    userid integer not null primary key,
+    username text not null,
+    firstname integer not null,
+    lastname text not null
+);
+
+create table blogs (
+    blogid integer not null primary key,
+    userid integer not null,
+    title text not null,
+    content text not null,
+    published date not null default CURRENT_DATE,
+    foreign key(userid) references users(userid)
+);
+</code></pre>
+
+<pre><code class="python">queries = aiosql.from_path(&quot;create_schema.sql&quot;, &quot;sqlite3&quot;)
+# ... connection code ...
+queries.create_schema(conn)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../advanced-topics/" class="btn btn-neutral float-right" title="Advanced Topics">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../getting-started/" class="btn btn-neutral" title="Getting Started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>Copyright 2018-2020, William Vaughn</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/nackjicholson/aiosql/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../getting-started/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../advanced-topics/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

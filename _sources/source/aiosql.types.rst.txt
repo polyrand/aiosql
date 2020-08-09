@@ -1,7 +1,0 @@
-aiosql.types module
-===================
-
-.. automodule:: aiosql.types
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,7 +1,0 @@
-aiosql.query\_loader module
-===========================
-
-.. automodule:: aiosql.query_loader
-    :members:
-    :undoc-members:
-    :show-inheritance:

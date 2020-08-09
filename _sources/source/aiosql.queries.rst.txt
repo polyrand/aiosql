@@ -1,7 +1,0 @@
-aiosql.queries module
-=====================
-
-.. automodule:: aiosql.queries
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,219 +1,233 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simple SQL in Python">
+  <meta name="author" content="William Vaughn">
+  <link rel="canonical" href="https://nackjicholson.github.io/aiosql/">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>aiosql docs</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="css/custom.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Home";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = "/aiosql/";
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
 
-<!doctype html>
+<body class="wy-body-for-nav" role="document">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>aiosql - Simple SQL in Python &#8212; aiosql 3.0.0 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <div class="wy-grid-for-nav">
+
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Install" href="install.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
-    <![endif]-->
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="install.html" title="Install"
-             accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">aiosql 3.0.0 documentation</a> &#187;</li> 
-      </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">aiosql - Simple SQL in Python</a><ul>
-<li><a class="reference internal" href="#contents">Contents</a></li>
-<li><a class="reference internal" href="#quick-example">Quick Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> aiosql docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="install.html"
-                        title="next chapter">Install</a></p><h3>Source code</h3>
-<ul>
-  <li><a href="https://github.com/nackjicholson/aiosql">GitHub Repository</a></li>
-  <li><a href="https://github.com/nackjicholson/aiosql/issues">Issues</a></li>
-</ul>
-        </div>
       </div>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="aiosql-simple-sql-in-python">
-<h1>aiosql - Simple SQL in Python<a class="headerlink" href="#aiosql-simple-sql-in-python" title="Permalink to this headline">¶</a></h1>
-<p>SQL is code, you should be able to write it, version control it, comment on it, and use it in database tools
-like <code class="docutils literal notranslate"><span class="pre">psql</span></code> as you would any other SQL. But, you also want to be able to use it from your python
-applications, and that’s where <code class="docutils literal notranslate"><span class="pre">aiosql</span></code> can help. With <code class="docutils literal notranslate"><span class="pre">aiosql</span></code> you can organize your SQL statements in <code class="docutils literal notranslate"><span class="pre">.sql</span></code>
-files and load them into a python object as methods to call.</p>
-<p>This project supports standard and <code class="docutils literal notranslate"><span class="pre">asyncio</span></code> based drivers for SQLite (<code class="docutils literal notranslate"><span class="pre">sqlite3</span></code>, <code class="docutils literal notranslate"><span class="pre">aiosqlite</span></code>) and PostgreSQL
-(<code class="docutils literal notranslate"><span class="pre">psycopg2</span></code>, <code class="docutils literal notranslate"><span class="pre">asyncpg</span></code>) out of the box, and can be extended to support other database drivers by you!
-<code class="docutils literal notranslate"><span class="pre">asyncio</span></code> support restricts this package to python versions &gt;3.6. If you are using older versions of python
-please see the related <a class="reference external" href="https://github.com/honza/anosql">anosql</a> package which this project is based on.</p>
-<div class="section" id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#basic-usage">Basic Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#query-operators">Query Operators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#python-domain-objects">Python Domain Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#queries-type-hinting">Queries Type Hinting</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="sync_vs_async.html">Sync vs Async</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sync_vs_async.html#sqlite3">sqlite3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sync_vs_async.html#aiosqlite">aiosqlite</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="defining_queries.html">Defining Queries</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="defining_queries.html#query-names-comments">Query Names &amp; Comments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="defining_queries.html#query-operations">Query Operations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="driver_adapters.html">Extending aiosql</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="driver_adapters.html#driver-adapters">Driver Adapters</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="upgrading.html">Upgrading from 2.x to 3.x</a></li>
-<li class="toctree-l1"><a class="reference internal" href="upgrading.html#upgrading-from-1-x-to-2-x">Upgrading from 1.x to 2.x</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source/modules.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/aiosql.html">aiosql package</a></li>
-</ul>
-</li>
-</ul>
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="getting-started/">Getting Started</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="defining-sql-queries/">Defining SQL Queries</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="advanced-topics/">Advanced Topics</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="database-driver-adapters/">Database Driver Adapters</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="api/">API</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">aiosql docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/nackjicholson/aiosql/edit/master/docs/index.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
 </div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="aiosql-simple-sql-in-python">aiosql - Simple SQL in Python<a class="headerlink" href="#aiosql-simple-sql-in-python" title="Permanent link">&para;</a></h1>
+<p>SQL is code. Write it, version control it, comment it, and run it using files. Writing your SQL code in Python programs as strings doesn't allow you to easily reuse them in SQL GUIs or CLI tools like psql. With aiosql you can organize your SQL statements in <em>.sql</em> files, load them into your python application as methods to call without losing the ability to use them as you would any other SQL file.</p>
+<p>This project supports standard and <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> based drivers for SQLite and PostgreSQL out of the box (<a href="https://docs.python.org/3/library/sqlite3.html">sqlite3</a>, <a href="https://aiosqlite.omnilib.dev/en/latest/?badge=latest">aiosqlite</a>, <a href="https://www.psycopg.org/docs/">psycopg2</a>, <a href="https://magicstack.github.io/asyncpg/current/">asyncpg</a>). Extensions to support other database drivers can be written by you! See: <a href="database-driver-adapters/">Database Driver Adapters</a></p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>This project supports <a href="https://docs.python.org/3/library/asyncio.html">asyncio</a> based drivers and requires python versions &gt;3.6.</p>
 </div>
-<div class="section" id="quick-example">
-<h2>Quick Example<a class="headerlink" href="#quick-example" title="Permalink to this headline">¶</a></h2>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<pre><code class="sh">pip install aiosql
+</code></pre>
+
+<p>Or if you you use <a href="https://python-poetry.org">poetry</a>:</p>
+<pre><code class="sh">poetry add aiosql
+</code></pre>
+
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <p><em>greetings.sql</em></p>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- name: get-all-greetings</span>
-<span class="c1">-- Get all the greetings in the database</span>
-<span class="k">select</span> <span class="n">greeting_id</span><span class="p">,</span> <span class="n">greeting</span> <span class="k">from</span> <span class="n">greetings</span><span class="p">;</span>
+<pre><code class="sql">-- name: get_all_greetings
+-- Get all the greetings in the database
+select greeting_id, greeting from greetings;
 
-<span class="c1">-- name: get-user-by-username^</span>
-<span class="c1">-- record_class: User</span>
-<span class="c1">-- Get all the users from the database,</span>
-<span class="c1">-- and return it as a dict</span>
-<span class="k">select</span> <span class="n">user_id</span><span class="p">,</span>
-       <span class="n">username</span><span class="p">,</span>
-       <span class="n">name</span>
-  <span class="k">from</span> <span class="n">users</span>
- <span class="k">where</span> <span class="n">username</span> <span class="o">=</span> <span class="p">:</span><span class="n">username</span><span class="p">;</span>
-</pre></div>
-</div>
+-- name: get_user_by_username^
+-- Get a user from the database
+select user_id,
+       username,
+       name
+  from users
+ where username = :username;
+</code></pre>
+
 <p><em>example.py</em></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">aiosql</span>
-<span class="kn">import</span> <span class="nn">aiosqlite</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<pre><code class="python">import asyncio
+import aiosql
+import aiosqlite
 
 
-<span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
-    <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+queries = aiosql.from_path(&quot;./greetings.sql&quot;, &quot;aiosqlite&quot;)
 
 
-<span class="n">queries</span> <span class="o">=</span> <span class="n">aiosql</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span>
-    <span class="s2">&quot;greetings.sql&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;aiosqlite&quot;</span><span class="p">,</span>
-    <span class="n">record_classes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;User&quot;</span><span class="p">:</span> <span class="n">User</span><span class="p">}</span>
-<span class="p">)</span>
+async def main():
+    # Parallel queries!!!
+    async with aiosqlite.connect(&quot;greetings.db&quot;) as conn:
+        greetings, user = await asyncio.gather(
+            queries.get_all_greetings(conn),
+            queries.get_user_by_username(conn, username=&quot;willvaughn&quot;)
+        )
+        # greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]
+        # user = (1, &quot;willvaughn&quot;, &quot;William&quot;)
 
+        for _, greeting in greetings:
+            print(f&quot;{greeting}, {user[2]}!&quot;)
+        # Hi, William!
+        # Aloha, William!
+        # Hola, William!
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-   <span class="c1"># Parallel queries!!!</span>
-   <span class="k">async</span> <span class="k">with</span> <span class="n">aiosqlite</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;greetings.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
-       <span class="n">greetings</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
-           <span class="n">queries</span><span class="o">.</span><span class="n">get_all_greetings</span><span class="p">(</span><span class="n">conn</span><span class="p">),</span>
-           <span class="n">queries</span><span class="o">.</span><span class="n">get_user_by_username</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s2">&quot;willvaughn&quot;</span><span class="p">)</span>
-       <span class="p">)</span>
-       <span class="c1"># greetings = [(1, &quot;Hi&quot;), (2, &quot;Aloha&quot;), (3, &quot;Hola&quot;)]</span>
-       <span class="c1"># user = User(1, &quot;willvaughn&quot;, &quot;Will&quot;)</span>
+asyncio.run(main())
+</code></pre>
 
-       <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">greeting</span> <span class="ow">in</span> <span class="n">greetings</span><span class="p">:</span>
-           <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">greeting</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">!)</span>
-
-
-<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
-</div>
-
-
+<p>This example has an imaginary SQLite database with greetings and users. It prints greetings in various languages to the user and showcases the basic feature of being able to load queries from a sql file and call them by name in python code. It also happens to do two SQL queries in parallel using <code>aiosqlite</code> and asyncio.</p>
+              
+            </div>
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="getting-started/" class="btn btn-neutral float-right" title="Getting Started">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+      <p>Copyright 2018-2020, William Vaughn</p>
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="install.html" title="Install"
-             >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">aiosql 3.0.0 documentation</a> &#187;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2018, William Vaughn.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/nackjicholson/aiosql/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+        <span style="margin-left: 15px"><a href="getting-started/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
 </html>
+
+<!--
+MkDocs version : 1.1.2
+Build Date UTC : 2020-08-09 06:33:42.126106+00:00
+-->

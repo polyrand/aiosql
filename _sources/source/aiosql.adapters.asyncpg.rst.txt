@@ -1,7 +1,0 @@
-aiosql.adapters.asyncpg module
-==============================
-
-.. automodule:: aiosql.adapters.asyncpg
-    :members:
-    :undoc-members:
-    :show-inheritance:

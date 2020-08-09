@@ -1,7 +1,0 @@
-aiosql.adapters.sqlite3 module
-==============================
-
-.. automodule:: aiosql.adapters.sqlite3
-    :members:
-    :undoc-members:
-    :show-inheritance:
