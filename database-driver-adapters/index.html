@@ -110,38 +110,113 @@
             <div class="section">
               
                 <h1 id="database-driver-adapters">Database Driver Adapters<a class="headerlink" href="#database-driver-adapters" title="Permanent link">&para;</a></h1>
-<p>Database driver adapters in aiosql allow extension of the library to support additional database drivers. If you are using a driver other than the ones currently supported by built-in driver adapters (<code>sqlite3</code>, <code>aiosqlite</code>, <code>psycopg2</code>, <code>asyncpg</code>) then you will need to make your own. A database driver adapter is a duck-typed class with the following interface.</p>
-<pre><code class="python">class DriverAdapter:
-    def process_sql(self, name, op_type, sql):
+<p>Database driver adapters in aiosql allow extension of the library to support additional database drivers. If you are using a driver other than the ones currently supported by built-in driver adapters (<code>sqlite3</code>, <code>aiosqlite</code>, <code>psycopg2</code>, <code>asyncpg</code>) then you will need to make your own. A database driver adapter is a duck-typed class that follows either of the <code>Protocol</code> types below. These types are defined in <a href="https://github.com/nackjicholson/aiosql/blob/master/aiosql/types.py">aiosql/types.py</a>.</p>
+<p><strong>Sync Adapter</strong></p>
+<pre><code class="python">class SyncDriverAdapterProtocol(Protocol):
+    def process_sql(self, query_name: str, op_type: SQLOperationType, sql: str) -&gt; str:
         ...
 
-    def select(self, conn, sql, parameters, row_class=None):
+    def select(
+        self,
+        conn: Any,
+        query_name: str,
+        sql: str,
+        parameters: Union[List, Dict],
+        record_class=Optional[Callable],
+    ) -&gt; List:
         ...
 
-    def select_one(self, conn, sql, parameters, row_class=None):
+    def select_one(
+        self,
+        conn: Any,
+        query_name: str,
+        sql: str,
+        parameters: Union[List, Dict],
+        record_class=Optional[Callable],
+    ) -&gt; Optional[Any]:
         ...
 
-    @contextmanager
-    def select_cursor(self, conn, sql, parameters):
+    def select_cursor(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; ContextManager[Any]:
         ...
 
-    def insert_update_delete(self, conn, sql, parameters):
+    def insert_update_delete(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; None:
         ...
 
-    def insert_update_delete_many(self, conn, sql, parameters):
+    def insert_update_delete_many(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; None:
         ...
 
-    def insert_returning(self, conn, sql, parameters):
+    def insert_returning(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; Optional[Any]:
         ...
 
-    def execute_script(self, conn, sql):
+    def execute_script(self, conn: Any, sql: str) -&gt; None:
         ...
 </code></pre>
 
-<p>Looking at the source of the builtin <a href="https://github.com/nackjicholson/aiosql/tree/master/aiosql/adapters">adapters/</a> is a great place to start seeing how you may write your own database driver adapter.</p>
+<p><strong>Async Adapter</strong></p>
+<pre><code class="python">class AsyncDriverAdapterProtocol(Protocol):
+    is_aio_driver = True
+
+    def process_sql(self, query_name: str, op_type: SQLOperationType, sql: str) -&gt; str:
+        ...
+
+    async def select(
+        self,
+        conn: Any,
+        query_name: str,
+        sql: str,
+        parameters: Union[List, Dict],
+        record_class=Optional[Callable],
+    ) -&gt; List:
+        ...
+
+    async def select_one(
+        self,
+        conn: Any,
+        query_name: str,
+        sql: str,
+        parameters: Union[List, Dict],
+        record_class=Optional[Callable],
+    ) -&gt; Optional[Any]:
+        ...
+
+    async def select_cursor(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; AsyncContextManager[Any]:
+        ...
+
+    async def insert_update_delete(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; None:
+        ...
+
+    async def insert_update_delete_many(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; None:
+        ...
+
+    async def insert_returning(
+        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
+    ) -&gt; Optional[Any]:
+        ...
+
+    async def execute_script(self, conn: Any, sql: str) -&gt; None:
+        ...
+</code></pre>
+
+<p>There isn't much difference between these two protocols besides the <code>async def</code> syntax for the method definition. There is one more sneaky difference, the aiosql code expects async adapters to have a static class field <code>is_aio_driver = True</code> so it can tell when to use <code>await</code> for method returns. Looking at the source of the builtin <a href="https://github.com/nackjicholson/aiosql/tree/master/aiosql/adapters">adapters/</a> is a great place to start seeing how you may write your own database driver adapter.</p>
 <p>To use the adapter pass it's constructor or factory as the driver_adapter argument when building Queries.</p>
 <pre><code class="python">queries = aiosql.from_path(&quot;foo.sql&quot;, driver_adapter=MyDbAdapter)
 </code></pre>
+
+<p>Please ask questions on <a href="https://github.com/nackjicholson/aiosql/issues">GitHub Issues</a>. If the community makes additional adapter add-ons I'll be sure to list them here.</p>
               
             </div>
           </div>
