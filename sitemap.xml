@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://nackjicholson.github.io/aiosql/</loc>
-     <lastmod>2020-08-11</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://nackjicholson.github.io/aiosql/getting-started/</loc>
-     <lastmod>2020-08-11</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://nackjicholson.github.io/aiosql/defining-sql-queries/</loc>
-     <lastmod>2020-08-11</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://nackjicholson.github.io/aiosql/advanced-topics/</loc>
-     <lastmod>2020-08-11</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://nackjicholson.github.io/aiosql/database-driver-adapters/</loc>
-     <lastmod>2020-08-11</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://nackjicholson.github.io/aiosql/api/</loc>
-     <lastmod>2020-08-11</lastmod>
+     <lastmod>2020-09-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
