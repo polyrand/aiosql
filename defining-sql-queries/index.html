@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#select-one">^ Select One</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#select-value">$ Select Value</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#insertupdatedelete">! Insert/Update/Delete</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#insertupdatedelete-returning">&lt;! Insert/Update/Delete Returning</a>
@@ -179,6 +181,17 @@ select userid,
 <p>When used from Python this query will either return <code>None</code> or the singular selected row.</p>
 <pre><code class="python">queries.get_user_by_username(conn, username=&quot;willvaughn&quot;)
 # =&gt; (1, &quot;willvaughn&quot;, &quot;William Vaughn&quot;) or None
+</code></pre>
+
+<h3 id="select-value"><code>$</code> Select Value<a class="headerlink" href="#select-value" title="Permanent link">&para;</a></h3>
+<p>The <code>$</code> operator will execute the query, and only return the first value of the first row of a result set. If there are no rows in the result set it returns <code>None</code>. This is implemented by returing the first element of the tuple returned by <code>cur.fetchone()</code> of the underlying driver. This is mostly useful for queries returning IDs, COUNTs or other aggregates.</p>
+<pre><code class="sql">-- name: get-count$
+select count(*) from users
+</code></pre>
+
+<p>When used from Python:</p>
+<pre><code class="python">queries.get_count(conn)
+# =&gt; 3
 </code></pre>
 
 <h3 id="insertupdatedelete"><code>!</code> Insert/Update/Delete<a class="headerlink" href="#insertupdatedelete" title="Permanent link">&para;</a></h3>
