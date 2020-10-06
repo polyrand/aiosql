@@ -2,10 +2,11 @@ from datetime import date
 from pathlib import Path
 from typing import NamedTuple
 
-import aiosql
 import psycopg2
 import psycopg2.extras
 import pytest
+
+import aiosql
 
 
 class UserBlogSummary(NamedTuple):
@@ -23,7 +24,9 @@ def queries():
 
 
 def test_record_query(pg_dsn, queries):
-    with psycopg2.connect(dsn=pg_dsn, cursor_factory=psycopg2.extras.RealDictCursor) as conn:
+    with psycopg2.connect(
+        dsn=pg_dsn, cursor_factory=psycopg2.extras.RealDictCursor
+    ) as conn:
         actual = queries.users.get_all(conn)
 
     assert len(actual) == 3
@@ -42,11 +45,19 @@ def test_parameterized_query(pg_conn, queries):
 
 
 def test_parameterized_record_query(pg_dsn, queries):
-    with psycopg2.connect(dsn=pg_dsn, cursor_factory=psycopg2.extras.RealDictCursor) as conn:
-        actual = queries.blogs.pg_get_blogs_published_after(conn, published=date(2018, 1, 1))
+    with psycopg2.connect(
+        dsn=pg_dsn, cursor_factory=psycopg2.extras.RealDictCursor
+    ) as conn:
+        actual = queries.blogs.pg_get_blogs_published_after(
+            conn, published=date(2018, 1, 1)
+        )
 
     expected = [
-        {"title": "How to make a pie.", "username": "bobsmith", "published": "2018-11-23 00:00"},
+        {
+            "title": "How to make a pie.",
+            "username": "bobsmith",
+            "published": "2018-11-23 00:00",
+        },
         {"title": "Testing", "username": "janedoe", "published": "2018-01-01 00:00"},
     ]
 

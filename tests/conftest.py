@@ -84,8 +84,7 @@ postgresqlnoop = factories.postgresql("postgresql_nooproc")
 
 @pytest.fixture
 def pg_conn(request):
-    """Loads seed data before returning db connection.
-    """
+    """Loads seed data before returning db connection."""
     if request.config.getoption("postgresql_detached"):
         conn = request.getfixturevalue("postgresqlnoop")
     else:
@@ -116,10 +115,15 @@ def pg_conn(request):
 
         with conn.cursor() as cur:
             with USERS_DATA_PATH.open() as fp:
-                cur.copy_from(fp, "users", sep=",", columns=["username", "firstname", "lastname"])
+                cur.copy_from(
+                    fp, "users", sep=",", columns=["username", "firstname", "lastname"]
+                )
             with BLOGS_DATA_PATH.open() as fp:
                 cur.copy_from(
-                    fp, "blogs", sep=",", columns=["userid", "title", "content", "published"]
+                    fp,
+                    "blogs",
+                    sep=",",
+                    columns=["userid", "title", "content", "published"],
                 )
 
     return conn

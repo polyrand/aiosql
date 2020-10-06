@@ -2,8 +2,8 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-import aiosql
 
+import aiosql
 from aiosql.exceptions import SQLParseException
 from aiosql.queries import Queries
 from aiosql.query_loader import QueryLoader

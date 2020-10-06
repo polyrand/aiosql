@@ -31,7 +31,13 @@ def test_var_pattern_is_quote_aware():
             "trail": "\n",
             "var_name": "created_at_mark",
         },
-        {"dblquote": None, "lead": " ", "quote": None, "trail": "\n", "var_name": "foo_mark"},
+        {
+            "dblquote": None,
+            "lead": " ",
+            "quote": None,
+            "trail": "\n",
+            "var_name": "foo_mark",
+        },
     ]
     assert groupdicts == expected
 
@@ -50,5 +56,11 @@ def test_var_pattern_does_not_require_semicolon_trail():
     groupdicts = [m.groupdict() for m in var_pattern.finditer(sql)]
     assert len(groupdicts) == 1
 
-    expected = {"dblquote": None, "lead": " ", "quote": None, "trail": "", "var_name": "a"}
+    expected = {
+        "dblquote": None,
+        "lead": " ",
+        "quote": None,
+        "trail": "",
+        "var_name": "a",
+    }
     assert groupdicts[0] == expected

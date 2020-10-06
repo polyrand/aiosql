@@ -1,15 +1,13 @@
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import List
 
-from .exceptions import SQLParseException, SQLLoadException
+from .exceptions import SQLLoadException, SQLParseException
 from .patterns import (
     doc_comment_pattern,
-    empty_pattern,
-    query_record_class_definition_pattern,
     query_name_definition_pattern,
     valid_query_name_pattern,
 )
-from .types import QueryDatum, QueryDataTree, SQLOperationType, DriverAdapterProtocol
+from .types import DriverAdapterProtocol, QueryDataTree, QueryDatum, SQLOperationType
 
 
 class QueryLoader:

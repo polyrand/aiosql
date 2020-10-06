@@ -3,9 +3,10 @@ from datetime import date
 from pathlib import Path
 from typing import NamedTuple
 
-import aiosql
 import asyncpg
 import pytest
+
+import aiosql
 
 
 class UserBlogSummary(NamedTuple):
@@ -43,19 +44,28 @@ async def test_parameterized_query(pg_dsn, queries):
     actual = await queries.blogs.get_user_blogs(conn, userid=1)
     await conn.close()
 
-    expected = [("How to make a pie.", date(2018, 11, 23)), ("What I did Today", date(2017, 7, 28))]
+    expected = [
+        ("How to make a pie.", date(2018, 11, 23)),
+        ("What I did Today", date(2017, 7, 28)),
+    ]
     assert actual == expected
 
 
 @pytest.mark.asyncio
 async def test_parameterized_record_query(pg_dsn, queries):
     conn = await asyncpg.connect(pg_dsn)
-    records = await queries.blogs.pg_get_blogs_published_after(conn, published=date(2018, 1, 1))
+    records = await queries.blogs.pg_get_blogs_published_after(
+        conn, published=date(2018, 1, 1)
+    )
     actual = [dict(rec) for rec in records]
     await conn.close()
 
     expected = [
-        {"title": "How to make a pie.", "username": "bobsmith", "published": "2018-11-23 00:00"},
+        {
+            "title": "How to make a pie.",
+            "username": "bobsmith",
+            "published": "2018-11-23 00:00",
+        },
         {"title": "Testing", "username": "janedoe", "published": "2018-01-01 00:00"},
     ]
 

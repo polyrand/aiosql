@@ -2,9 +2,10 @@ import asyncio
 from pathlib import Path
 from typing import NamedTuple
 
-import aiosql
 import aiosqlite
 import pytest
+
+import aiosql
 
 
 class UserBlogSummary(NamedTuple):
@@ -47,7 +48,10 @@ async def test_record_query(sqlite3_db_path, queries):
 async def test_parameterized_query(sqlite3_db_path, queries):
     async with aiosqlite.connect(sqlite3_db_path) as conn:
         actual = await queries.blogs.get_user_blogs(conn, userid=1)
-        expected = [("How to make a pie.", "2018-11-23"), ("What I did Today", "2017-07-28")]
+        expected = [
+            ("How to make a pie.", "2018-11-23"),
+            ("What I did Today", "2017-07-28"),
+        ]
         assert actual == expected
 
 
@@ -55,7 +59,9 @@ async def test_parameterized_query(sqlite3_db_path, queries):
 async def test_parameterized_record_query(sqlite3_db_path, queries):
     async with aiosqlite.connect(sqlite3_db_path) as conn:
         conn.row_factory = dict_factory
-        actual = await queries.blogs.sqlite_get_blogs_published_after(conn, published="2018-01-01")
+        actual = await queries.blogs.sqlite_get_blogs_published_after(
+            conn, published="2018-01-01"
+        )
 
         expected = [
             {
@@ -63,7 +69,11 @@ async def test_parameterized_record_query(sqlite3_db_path, queries):
                 "username": "bobsmith",
                 "published": "2018-11-23 00:00",
             },
-            {"title": "Testing", "username": "janedoe", "published": "2018-01-01 00:00"},
+            {
+                "title": "Testing",
+                "username": "janedoe",
+                "published": "2018-01-01 00:00",
+            },
         ]
 
         assert actual == expected
@@ -87,7 +97,10 @@ async def test_select_cursor_context_manager(sqlite3_db_path, queries):
     async with aiosqlite.connect(sqlite3_db_path) as conn:
         async with queries.blogs.get_user_blogs_cursor(conn, userid=1) as cursor:
             actual = [row async for row in cursor]
-            expected = [("How to make a pie.", "2018-11-23"), ("What I did Today", "2017-07-28")]
+            expected = [
+                ("How to make a pie.", "2018-11-23"),
+                ("What I did Today", "2017-07-28"),
+            ]
             assert actual == expected
 
 
@@ -113,7 +126,11 @@ async def test_select_value(sqlite3_db_path, queries):
 async def test_insert_returning(sqlite3_db_path, queries):
     async with aiosqlite.connect(sqlite3_db_path) as conn:
         blogid = await queries.blogs.publish_blog(
-            conn, userid=2, title="My first blog", content="Hello, World!", published="2018-12-04"
+            conn,
+            userid=2,
+            title="My first blog",
+            content="Hello, World!",
+            published="2018-12-04",
         )
 
         sql = """

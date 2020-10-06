@@ -1,11 +1,10 @@
 from pathlib import Path
-from typing import Callable, Dict, List, Mapping, Optional, Tuple, Type, Union
+from typing import List, Mapping, Union
 
 from .asyncpg import AsyncPGAdapter
 from .exceptions import SQLLoadException
 from .queries import Queries
 from .query_loader import QueryLoader
-from dataclasses import asdict
 
 
 async def reload_queries(queries: Queries, path: Path):

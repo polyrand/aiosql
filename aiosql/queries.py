@@ -1,13 +1,8 @@
 from types import MethodType
-from typing import Any, Callable, List, Optional, Tuple, Set, cast
-from .asyncpg import AsyncPGAdapter
+from typing import Any, Callable, List, Optional, Set, Tuple, cast
 
-from .types import (
-    QueryDatum,
-    QueryDataTree,
-    QueryFn,
-    SQLOperationType,
-)
+from .asyncpg import AsyncPGAdapter
+from .types import QueryDataTree, QueryDatum, QueryFn, SQLOperationType
 
 
 def _params(args, kwargs):

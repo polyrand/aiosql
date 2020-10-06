@@ -1,11 +1,8 @@
 import argparse
 import sqlite3
-from datetime import datetime
 from pathlib import Path
-from typing import NamedTuple
 
 import aiosql
-
 
 dir_path = Path(__file__).parent
 sql_path = dir_path / "sql"
@@ -13,7 +10,11 @@ db_path = dir_path / "exampleblog.db"
 queries = aiosql.from_path(dir_path / "sql", "sqlite3")
 
 
-users = [("bobsmith", "Bob", "Smith"), ("johndoe", "John", "Doe"), ("janedoe", "Jane", "Doe")]
+users = [
+    ("bobsmith", "Bob", "Smith"),
+    ("johndoe", "John", "Doe"),
+    ("janedoe", "Jane", "Doe"),
+]
 blogs = [
     (
         1,

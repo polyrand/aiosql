@@ -1,15 +1,7 @@
-from collections import defaultdict
-import asyncio
-import contextlib
-import functools
 import logging
-import sys
 import typing
-from types import TracebackType
+from collections import defaultdict
 from urllib.parse import SplitResult, parse_qsl, urlsplit
-
-
-from contextvars import ContextVar
 
 LOG_EXTRA = {}
 CONNECT_EXTRA = {}
@@ -20,14 +12,11 @@ logger = logging.getLogger("databases")
 
 import logging
 import typing
-from collections.abc import Mapping
+from contextlib import asynccontextmanager
 
 import asyncpg
 
-
-from contextlib import asynccontextmanager
 from .patterns import var_pattern
-
 
 logger = logging.getLogger("databases")
 
@@ -213,7 +202,8 @@ class AsyncPGAdapter:
         self._pool = None
 
         logger.info(
-            "Disconnected from database %s", self._database_url.obscure_password,
+            "Disconnected from database %s",
+            self._database_url.obscure_password,
         )
 
     def process_sql(self, query_name, _op_type, sql):
