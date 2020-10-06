@@ -32,7 +32,7 @@ class QueryDatum(NamedTuple):
     doc_comments: str
     operation_type: SQLOperationType
     sql: str
-    record_class: Any = None
+    # record_class: Any = None
 
 
 class QueryFn(Protocol):
@@ -48,61 +48,6 @@ class QueryFn(Protocol):
 QueryDataTree = Dict[str, Union[QueryDatum, Dict]]
 
 
-class SyncDriverAdapterProtocol(Protocol):
-    def process_sql(self, query_name: str, op_type: SQLOperationType, sql: str) -> str:
-        ...
-
-    def select(
-        self,
-        conn: Any,
-        query_name: str,
-        sql: str,
-        parameters: Union[List, Dict],
-        record_class: Optional[Callable],
-    ) -> List:
-        ...
-
-    def select_one(
-        self,
-        conn: Any,
-        query_name: str,
-        sql: str,
-        parameters: Union[List, Dict],
-        record_class: Optional[Callable],
-    ) -> Optional[Any]:
-        ...
-
-    def select_value(
-        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict],
-    ) -> Optional[Any]:
-        ...
-
-    def select_cursor(
-        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
-    ) -> ContextManager[Any]:
-        ...
-
-    # TODO: Next major version introduce a return? Optional return?
-    def insert_update_delete(
-        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
-    ) -> None:
-        ...
-
-    # TODO: Next major version introduce a return? Optional return?
-    def insert_update_delete_many(
-        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
-    ) -> None:
-        ...
-
-    def insert_returning(
-        self, conn: Any, query_name: str, sql: str, parameters: Union[List, Dict]
-    ) -> Optional[Any]:
-        ...
-
-    def execute_script(self, conn: Any, sql: str) -> str:
-        ...
-
-
 class AsyncDriverAdapterProtocol(Protocol):
     def process_sql(self, query_name: str, op_type: SQLOperationType, sql: str) -> str:
         ...
@@ -113,7 +58,7 @@ class AsyncDriverAdapterProtocol(Protocol):
         query_name: str,
         sql: str,
         parameters: Union[List, Dict],
-        record_class: Optional[Callable],
+        # record_class: Optional[Callable],
     ) -> List:
         ...
 
@@ -123,7 +68,7 @@ class AsyncDriverAdapterProtocol(Protocol):
         query_name: str,
         sql: str,
         parameters: Union[List, Dict],
-        record_class: Optional[Callable],
+        # record_class: Optional[Callable],
     ) -> Optional[Any]:
         ...
 

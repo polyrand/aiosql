@@ -13,9 +13,8 @@ from .types import QueryDatum, QueryDataTree, SQLOperationType, DriverAdapterPro
 
 
 class QueryLoader:
-    def __init__(self, driver_adapter: DriverAdapterProtocol, record_classes: Optional[Dict]):
+    def __init__(self, driver_adapter: DriverAdapterProtocol):
         self.driver_adapter = driver_adapter
-        self.record_classes = record_classes if record_classes is not None else {}
 
     def _make_query_datum(self, query_str: str):
         lines = [line.strip() for line in query_str.strip().splitlines()]
@@ -67,9 +66,8 @@ class QueryLoader:
 
         doc_comments = doc_comments.strip()
         sql = self.driver_adapter.process_sql(query_name, operation_type, sql.strip())
-        record_class = self.record_classes.get(record_class_name)
 
-        return QueryDatum(query_name, doc_comments, operation_type, sql, record_class)
+        return QueryDatum(query_name, doc_comments, operation_type, sql)
 
     def load_query_data_from_sql(self, sql: str) -> List[QueryDatum]:
         query_data = []
@@ -105,7 +103,9 @@ class QueryLoader:
                     query_data_tree[child_name] = child_query_data_tree
                 else:
                     # This should be practically unreachable.
-                    raise SQLLoadException(f"The path must be a directory or file, got {p}")
+                    raise SQLLoadException(
+                        f"The path must be a directory or file, got {p}"
+                    )
             return query_data_tree
 
         return _recurse_load_query_data_tree(dir_path)
