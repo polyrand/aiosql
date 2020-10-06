@@ -35,14 +35,19 @@ def from_path(sql_path: Union[str, Path], *, url: str):
     if not path.exists():
         raise SQLLoadException(f"File does not exist: {path}")
 
-    query_loader = QueryLoader(AsyncPGAdapter(database_url=url))  # , record_classes)
+    # initiate object
+    # always the same object
+    pgdriver = AsyncPGAdapter(database_url=url)
+
+    # process queries that object
+    query_loader = QueryLoader(pgdriver)  # , record_classes)
 
     if path.is_file():
         query_data = query_loader.load_query_data_from_file(path)
-        return Queries(url).load_from_list(query_data)
+        return Queries(pgdriver).load_from_list(query_data)
     elif path.is_dir():
         query_data_tree = query_loader.load_query_data_from_dir_path(path)
-        return Queries(url).load_from_tree(query_data_tree)
+        return Queries(pgdriver).load_from_tree(query_data_tree)
     else:
         raise SQLLoadException(
             f"The sql_path must be a directory or file, got {sql_path}"

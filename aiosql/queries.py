@@ -47,7 +47,7 @@ def _make_fn(query_datum: QueryDatum) -> QueryFn:
 
         async def fn(self: Queries, *args, **kwargs):
             return await self.driver_adapter.insert_update_delete_many(
-                query_name, sql, _params(args, kwargs)
+                query_name, sql, *_params(args, kwargs)
             )
 
     elif operation_type == SQLOperationType.SCRIPT:
@@ -115,9 +115,9 @@ class Queries:
     own adapter class, you can pass it's constructor.
     """
 
-    def __init__(self, url: str):
-        self.driver_adapter = AsyncPGAdapter(database_url=url)
-        self._url = url
+    def __init__(self, driver_adapter: AsyncPGAdapter):
+        self.driver_adapter = driver_adapter
+        # self._url = url
         self._available_queries: Set[str] = set()
 
     async def connect(self):
