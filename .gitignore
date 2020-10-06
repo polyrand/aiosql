@@ -1,4 +1,5 @@
 queries.sql
+create.sql
 # Swap
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
