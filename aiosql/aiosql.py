@@ -1,10 +1,43 @@
 from pathlib import Path
-from typing import Callable, Dict, Optional, Type, Union
+from typing import Callable, Dict, List, Mapping, Optional, Tuple, Type, Union
 
 from .asyncpg import AsyncPGAdapter
 from .exceptions import SQLLoadException
 from .queries import Queries
 from .query_loader import QueryLoader
+from dataclasses import asdict
+
+
+async def reload_queries(queries: Queries, path: Path):
+
+    db_url = str(queries.driver_adapter._database_url)
+
+    await queries.disconnect()
+
+    new_queries = from_path(path, url=db_url)
+
+    await new_queries.connect()
+
+    return new_queries
+
+
+def toclass(results: Union[List[Mapping], Mapping], obj):
+
+    # obj is dataclasses
+    if isinstance(obj, type):
+        if isinstance(results, list):
+            return [obj(**dict(r)) for r in results]
+        else:
+            return obj(**dict(results))
+
+    # obj is pydantic model
+    # I'm using this hacky str(type()) to avoid having pydantic
+    # as a dependency
+    elif type(obj) == "<class 'pydantic.main.ModelMetaclass'>":
+        if isinstance(results, list):
+            return [obj.parse_obj(r) for r in results]
+        else:
+            return obj.parse_obj(results)
 
 
 def from_path(sql_path: Union[str, Path], *, url: str):

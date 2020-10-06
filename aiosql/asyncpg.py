@@ -166,8 +166,6 @@ class DoAcquire:
 
 
 class AsyncPGAdapter:
-    is_aio_driver = True
-
     def __init__(self, database_url: str, **options: typing.Any):
         self.var_replacements = defaultdict(dict)
         self._database_url = DatabaseURL(database_url)
@@ -272,8 +270,6 @@ class AsyncPGAdapter:
         parameters = self.maybe_order_params(query_name, parameters)
         async with DoAcquire(self._pool) as connection:
             results = await connection.fetch(sql, *parameters)
-            # if record_class is not None:
-            #     results = [record_class(**dict(rec)) for rec in results]
         return results
 
     async def select_one(self, query_name, sql, parameters):
@@ -326,8 +322,3 @@ class AsyncPGAdapter:
         assert self._pool is not None, "Connection is not acquired"
         async with DoAcquire(self._pool) as connection:
             return await connection.execute(sql)
-
-    # @property
-    # def raw_connection(self) -> asyncpg.connection.Connection:
-    #     assert self._connection is not None, "Connection is not acquired"
-    #     return self._connection
