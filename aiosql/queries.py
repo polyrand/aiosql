@@ -31,42 +31,50 @@ def _make_fn(query_datum: QueryDatum) -> QueryFn:
     query_name, doc_comments, operation_type, sql = query_datum
     if operation_type == SQLOperationType.INSERT_RETURNING:
 
-        async def fn(self: Queries, **kwargs):
-            return await self.driver_adapter.insert_returning(query_name, sql, kwargs)
+        async def fn(self: Queries, *args, **kwargs):
+            return await self.driver_adapter.insert_returning(
+                query_name, sql, _params(args, kwargs)
+            )
 
     elif operation_type == SQLOperationType.INSERT_UPDATE_DELETE:
 
-        async def fn(self: Queries, **kwargs):
+        async def fn(self: Queries, *args, **kwargs):
             return await self.driver_adapter.insert_update_delete(
-                query_name, sql, kwargs
+                query_name, sql, _params(args, kwargs)
             )
 
     elif operation_type == SQLOperationType.INSERT_UPDATE_DELETE_MANY:
 
-        async def fn(self: Queries, **kwargs):
+        async def fn(self: Queries, *args, **kwargs):
             return await self.driver_adapter.insert_update_delete_many(
-                query_name, sql, *kwargs
+                query_name, sql, _params(args, kwargs)
             )
 
     elif operation_type == SQLOperationType.SCRIPT:
 
-        async def fn(self: Queries, **kwargs):
+        async def fn(self: Queries, *args, **kwargs):
             return await self.driver_adapter.execute_script(sql)
 
     elif operation_type == SQLOperationType.SELECT:
 
-        async def fn(self: Queries, **kwargs):
-            return await self.driver_adapter.select(query_name, sql, kwargs)
+        async def fn(self: Queries, *args, **kwargs):
+            return await self.driver_adapter.select(
+                query_name, sql, _params(args, kwargs)
+            )
 
     elif operation_type == SQLOperationType.SELECT_ONE:
 
-        async def fn(self: Queries, **kwargs):
-            return await self.driver_adapter.select_one(query_name, sql, kwargs)
+        async def fn(self: Queries, *args, **kwargs):
+            return await self.driver_adapter.select_one(
+                query_name, sql, _params(args, kwargs)
+            )
 
     elif operation_type == SQLOperationType.SELECT_VALUE:
 
-        async def fn(self: Queries, **kwargs):
-            return await self.driver_adapter.select_value(query_name, sql, kwargs)
+        async def fn(self: Queries, *args, **kwargs):
+            return await self.driver_adapter.select_value(
+                query_name, sql, _params(args, kwargs)
+            )
 
     else:
         raise ValueError(f"Unknown operation_type: {operation_type}")

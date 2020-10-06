@@ -103,4 +103,4 @@ class AsyncDriverAdapterProtocol(Protocol):
         ...
 
 
-DriverAdapterProtocol = Union[SyncDriverAdapterProtocol, AsyncDriverAdapterProtocol]
+DriverAdapterProtocol = Union[AsyncDriverAdapterProtocol]

@@ -1,4 +1,4 @@
-from .aiosql import from_path, from_str
+from .aiosql import from_path
 from .exceptions import SQLParseException, SQLLoadException
 
-__all__ = ["from_path", "from_str", "SQLParseException", "SQLLoadException"]
+__all__ = ["from_path", "SQLParseException", "SQLLoadException"]

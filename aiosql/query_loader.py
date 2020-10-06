@@ -46,14 +46,7 @@ class QueryLoader:
                 f'name must convert to valid python variable, got "{query_name}".'
             )
 
-        record_class_match = query_record_class_definition_pattern.match(lines[1])
-        record_class_name: Optional[str]
-        if record_class_match:
-            line_offset = 2
-            record_class_name = record_class_match.group(1)
-        else:
-            line_offset = 1
-            record_class_name = None
+        line_offset = 1
 
         doc_comments = ""
         sql = ""

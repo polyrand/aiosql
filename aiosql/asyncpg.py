@@ -197,6 +197,7 @@ class AsyncPGAdapter:
     async def connect(self) -> None:
         assert self._pool is None, "DatabaseBackend is already running"
         kwargs = self._get_connection_kwargs()
+        logger.debug("Creating connection pool")
         self._pool = await asyncpg.create_pool(
             host=self._database_url.hostname,
             port=self._database_url.port,
@@ -267,40 +268,40 @@ class AsyncPGAdapter:
             )
 
     async def select(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             results = await connection.fetch(sql, *parameters)
             # if record_class is not None:
             #     results = [record_class(**dict(rec)) for rec in results]
         return results
 
     async def select_one(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             result = await connection.fetchrow(sql, *parameters)
         return result
 
     async def select_value(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             return await connection.fetchval(sql, *parameters)
 
     @asynccontextmanager
     async def select_cursor(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             stmt = await connection.prepare(sql)
             async with connection.transaction():
                 yield stmt.cursor(*parameters)
 
     async def insert_returning(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             res = await connection.fetchrow(sql, *parameters)
             if res:
                 return res[0] if len(res) == 1 else res
@@ -308,25 +309,25 @@ class AsyncPGAdapter:
                 return None
 
     async def insert_update_delete(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             await connection.execute(sql, *parameters)
 
     async def insert_update_delete_many(self, query_name, sql, parameters):
-        assert self._connection is not None, "Connection is not acquired"
+        assert self._pool is not None, "Connection is not acquired"
         parameters = [
             self.maybe_order_params(query_name, params) for params in parameters
         ]
-        async with DoAcquire(self._connection) as connection:
+        async with DoAcquire(self._pool) as connection:
             await connection.executemany(sql, parameters)
 
     async def execute_script(self, sql):
-        assert self._connection is not None, "Connection is not acquired"
-        async with DoAcquire(self._connection) as connection:
+        assert self._pool is not None, "Connection is not acquired"
+        async with DoAcquire(self._pool) as connection:
             return await connection.execute(sql)
 
-    @property
-    def raw_connection(self) -> asyncpg.connection.Connection:
-        assert self._connection is not None, "Connection is not acquired"
-        return self._connection
+    # @property
+    # def raw_connection(self) -> asyncpg.connection.Connection:
+    #     assert self._connection is not None, "Connection is not acquired"
+    #     return self._connection

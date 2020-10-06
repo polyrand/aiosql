@@ -35,7 +35,7 @@ def from_path(sql_path: Union[str, Path], *, url: str):
     if not path.exists():
         raise SQLLoadException(f"File does not exist: {path}")
 
-    query_loader = QueryLoader(AsyncPGAdapter)  # , record_classes)
+    query_loader = QueryLoader(AsyncPGAdapter(database_url=url))  # , record_classes)
 
     if path.is_file():
         query_data = query_loader.load_query_data_from_file(path)
