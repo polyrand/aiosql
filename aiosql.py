@@ -231,6 +231,7 @@ def toclass(results: Union[List[Mapping], Mapping], obj):
             return obj.parse_obj(results)
 
 
+# copied from: https://github.com/encode/databases
 class _EmptyNetloc(str):
     def __bool__(self) -> bool:
         return True
