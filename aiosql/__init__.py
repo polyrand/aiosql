@@ -1,4 +1,4 @@
-from .aiosql import from_path, toclass, reload_queries
+from .aiosql import from_path, reload_queries, toclass
 from .exceptions import SQLLoadException, SQLParseException
 
 __all__ = [

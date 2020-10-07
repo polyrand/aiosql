@@ -7,7 +7,7 @@ from .queries import Queries
 from .query_loader import QueryLoader
 
 
-async def reload_queries(queries: Queries, path: Path):
+async def reload_queries(*, queries: Queries, path: Path):
 
     db_url = str(queries.driver_adapter._database_url)
 
