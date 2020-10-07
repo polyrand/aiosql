@@ -7,6 +7,7 @@ from pathlib import Path
 from types import MethodType
 from typing import Any, Callable, List, Optional, Set, Tuple, cast, Dict, Union, Mapping
 from urllib.parse import SplitResult, parse_qsl, urlsplit
+from dataclasses import asdict, is_dataclass
 
 import asyncpg
 
@@ -118,6 +119,16 @@ def _params(args, kwargs):
     if len(kwargs) > 0:
         return kwargs
     else:
+        if len(args) == 1:
+            arg = args[0]
+            # pydantic model or dataclass
+            if str(
+                type(type(arg))
+            ) == "<class 'pydantic.main.ModelMetaclass'>" or is_dataclass(arg):
+                # return the class, it will be processed later
+                # in the maybe_order_params function
+                return arg
+
         return args
 
 
@@ -596,6 +607,15 @@ class AsyncPGAdapter:
         return sql
 
     def maybe_order_params(self, query_name, parameters):
+
+        # hacky way to check if its a pydantic model without importing it
+        if str(type(type(parameters))) == "<class 'pydantic.main.ModelMetaclass'>":
+            parameters = parameters.dict()
+
+        # or it's a dataclass
+        elif is_dataclass(parameters):
+            parameters = asdict(parameters)
+
         if isinstance(parameters, dict):
             xs = [
                 (self.var_replacements[query_name][k], v) for k, v in parameters.items()
