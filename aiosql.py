@@ -349,17 +349,22 @@ class DatabaseURL:
         return str(self) == str(other)
 
 
-class DoAcquire:
+class MaybeAcquire:
     def __init__(self, client):
         self.client = client
 
     async def __aenter__(self):
-        self._managed_conn = await self.client.acquire()
-        return self._managed_conn
+        try:
+            self._managed_conn = await self.client.acquire()
+            return self._managed_conn
+        except AttributeError:
+            self._managed_conn = None
+            return self.client
 
     async def __aexit__(self, exc_type, exc, tb):
-        assert self._managed_conn is not None
-        await self.client.release(self._managed_conn)
+        # assert self._managed_conn is not None
+        if self._managed_conn is not None:
+            await self.client.release(self._managed_conn)
 
 
 class AsyncPGAdapter:
@@ -630,31 +635,32 @@ class AsyncPGAdapter:
                 f"Parameters expected to be dict or tuple, received {parameters}"
             )
 
+    # SQL operations start here
     async def select(self, query_name, sql, parameters):
         assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             results = await connection.fetch(sql, *parameters)
         return results
 
     async def select_one(self, query_name, sql, parameters):
         assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             result = await connection.fetchrow(sql, *parameters)
         return result
 
     async def select_value(self, query_name, sql, parameters):
         assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             return await connection.fetchval(sql, *parameters)
 
     @asynccontextmanager
     async def select_cursor(self, query_name, sql, parameters):
         assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             stmt = await connection.prepare(sql)
             async with connection.transaction():
                 yield stmt.cursor(*parameters)
@@ -662,7 +668,7 @@ class AsyncPGAdapter:
     async def insert_returning(self, query_name, sql, parameters):
         assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             res = await connection.fetchrow(sql, *parameters)
             if res:
                 return res[0] if len(res) == 1 else res
@@ -672,7 +678,7 @@ class AsyncPGAdapter:
     async def insert_update_delete(self, query_name, sql, parameters):
         assert self._pool is not None, "Connection is not acquired"
         parameters = self.maybe_order_params(query_name, parameters)
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             await connection.execute(sql, *parameters)
 
     async def insert_update_delete_many(self, query_name, sql, parameters):
@@ -680,12 +686,12 @@ class AsyncPGAdapter:
         parameters = [
             self.maybe_order_params(query_name, params) for params in parameters
         ]
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             await connection.executemany(sql, parameters)
 
     async def execute_script(self, sql):
         assert self._pool is not None, "Connection is not acquired"
-        async with DoAcquire(self._pool) as connection:
+        async with MaybeAcquire(self._pool) as connection:
             return await connection.execute(sql)
 
     def reload(self, sql_path: Union[str, Path]):
