@@ -696,3 +696,19 @@ class AsyncPGAdapter:
 
     def reload(self, sql_path: Union[str, Path]):
         self.load_all(sql_path=sql_path)
+
+    @asynccontextmanager
+    async def transaction(self, **kwargs):
+        self._conn = await self._pool.acquire()
+        tr = self._conn.transaction()
+        await tr.start()
+        try:
+            yield self._conn
+        except:
+            await tr.rollback()
+            raise
+        else:
+            await tr.commit()
+        finally:
+            self._pool.release(self._conn)
+            self._conn = None
